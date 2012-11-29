@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+
+  <title><![CDATA[Category: ruby | Lee Kelby Blog]]></title>
+  <link href="http://kelby.github.com/blog/categories/ruby/atom.xml" rel="self"/>
+  <link href="http://kelby.github.com/"/>
+  <updated>2012-11-29T23:58:41+08:00</updated>
+  <id>http://kelby.github.com/</id>
+  <author>
+    <name><![CDATA[Lee Kelby]]></name>
+    
+  </author>
+  <generator uri="http://octopress.org/">Octopress</generator>
+
+  
+  <entry>
+    <title type="html"><![CDATA[教你在ubuntu下安装RVM,ruby,rails]]></title>
+    <link href="http://kelby.github.com/blog/2012/11/29/jiao-ni-zai-ubuntuxia-an-zhuang-rvm/"/>
+    <updated>2012-11-29T22:53:00+08:00</updated>
+    <id>http://kelby.github.com/blog/2012/11/29/jiao-ni-zai-ubuntuxia-an-zhuang-rvm</id>
+    <content type="html"><![CDATA[<p>对于新手来说，安装rails有时确实是一件痛苦的事。这也不懂，那也不懂。尽管网上这教程一搜一大把，但如何‘选择’又是另一个大问题。</p>
+
+<p>网上教你如何安装rails的教程可以说数不胜数，这也只是其中这一，作者希望能够对你有帮助~~~</p>
+
+<p>首先说明，这教程不适用于windows，但作者本人在多个不同版本的ubuntu上均能安装成功，其它的类linux应该‘大同小异’吧。</p>
+
+<p>第一步，打开终端Ctrl+Alt+T。
+然后升级一下源，执行：</p>
+
+<p><code>
+sudo apt-get update
+</code>
+接下来，我们安装git(一个版本控制系统)和curl，RVM的安装和使用需要使用到它们，还有build-essential用来编译 ruby。为了安装这三个包，我们执行：</p>
+
+<p><code>
+sudo apt-get install build-essential git-core curl
+</code>
+这就可以安装RVM了，执行（这命令是一行）：</p>
+
+<p><code>
+curl -L https://get.rvm.io | bash -s stable
+</code></p>
+
+<p>为了加载RVM(有时你可能需要关闭终端再重启),执行：</p>
+
+<p><code>
+source ~/.rvm/scripts/rvm
+</code></p>
+
+<p>测试是否安装成功？</p>
+
+<p><code>type rvm | head -n 1</code></p>
+
+<p>（显示rvm is a function ,就对了. .. <strong>更新</strong> ：最近发现运行该命令时有时会输出 rvm 1.16.17 (stable) by  Wayne E.  Seguin　。。。省略。这不是错误）</p>
+
+<p>补充说明：有时这行命令会没用，最终表现就是安装rails成功，但下次使用却用不了。也就是明明安装了rails但就是不能使用并提示还没安装。</p>
+
+<p>解决办法：参考 <a href="http://stackoverflow.com/questions/4842566/rvm-command-source-rvm-scripts-rvm">RVM Command: source ~/.rvm/scripts/rvm</a></p>
+
+<p>也就是分别在~/.profile 或 ~/.bashrc
+加入</p>
+
+<p><code>[[ -s "$HOME/.rvm/scripts/rvm" ]] &amp;&amp; . "$HOME/.rvm/scripts/rvm"</code></p>
+
+<p>想安装ruby吗？（废话,现 ruby 版本已为 1.9.3）
+执行：</p>
+
+<p><code>
+rvm install 1.9.3                            
+</code></p>
+
+<p>执行时，注意看一下终端上显示的内容，你安装RVM，需要依赖一些包！
+或者：<code>rvm requirements</code> 也可以看到同样的信息。
+可用apt-get或aptitude安装，例如执行（这也是一行）：</p>
+
+<p>```
+sudo apt-get install build-essential openssl libreadline6 libreadline6-dev curl git-core zlib1g zlib1g-dev libssl-dev libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt-dev autoconf libc6-dev ncurses-dev automake libtool bison subversion</p>
+
+<p>```</p>
+
+<p>（安装时间看你网速了，可能很久）</p>
+
+<p>使用ruby 1.9.3
+执行：</p>
+
+<p><code>
+rvm use 1.9.3 --default
+</code>
+查看一下版本和运用在哪的。</p>
+
+<p><code>
+user$ ruby -v
+ruby 1.9.3p180 (2011-02-18 revision 30909) [i386-darwin9.8.0]
+</code></p>
+
+<p><code>
+user$ which ruby
+Using /Users/user/.rvm/gems/ruby-1.9.2-p180/bin/ruby
+</code></p>
+
+<p>最后，让ruby 1.9.3为默认(ruby)版本,执行：</p>
+
+<p><code>
+rvm use 1.9.3 --default
+</code></p>
+
+<p>ok,到此结束。。。
+（哦，，，还没安装rails呢？！）
+习惯性的先升级一下,执行:</p>
+
+<p><code>
+gem update --system
+</code>
+执行：</p>
+
+<p><code>
+gem install rails
+</code></p>
+
+<p>提示：安装rails,时间可能很久，看你网速了。如果提示找不到源或者错误的，你可能需要挂上VPN(翻#墙)，或者改用 <a href="http://ruby.taobao.org/">taobao的源</a> 来安装rails                 <br/>
+也就是执行：</p>
+
+<p><code>
+gem install rails
+</code></p>
+
+<p>其它的gem，可以执行：</p>
+
+<p><code>
+gem install xxx
+</code>
+来安装(注意即使是一些‘常用’的库也需要依赖才能工作，比如：mysql2
+gem…您需要安装libmysqlclient16-dev包)。</p>
+
+<p>常用的</p>
+
+<p>mysql:</p>
+
+<p><code>sudo apt-get install libmysql-ruby libmysqlclient-dev</code></p>
+
+<p>postgresql:</p>
+
+<p><code>sudo apt-get install libpq-dev</code></p>
+
+<p>更详细安装过程,可参考：https://rvm.io/rvm/install/#explained</p>
+]]></content>
+  </entry>
+  
+</feed>
